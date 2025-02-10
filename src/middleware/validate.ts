@@ -17,6 +17,13 @@ export class ValidationMiddleware {
             .isLength({ min: 2 })
             .withMessage('Last name must be at least 2 characters'),
 
+        body('number')
+            .trim()
+            .notEmpty()
+            .withMessage('Phone number is required')
+            .isLength({ min: 11 })
+            .withMessage('Phone number must be at least 11 characters'),
+            
         body('email')
             .trim()
             .notEmpty()
