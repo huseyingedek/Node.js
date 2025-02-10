@@ -23,7 +23,7 @@ app.use(ErrorMiddleware.handle);
 
 const database = Database.getInstance();
 database.connect().then(() => {
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
         console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
