@@ -23,6 +23,7 @@ export interface IUserResponse {
     id: string;
     firstName: string;
     lastName: string;
+    number: string;
     email: string;
     token?: string;
 }

@@ -8,6 +8,7 @@ export class AuthController {
             const userData: IUser = {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
+                number: req.body.number,
                 email: req.body.email,
                 password: req.body.password
             };

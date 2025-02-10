@@ -30,6 +30,7 @@ export class AuthService {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
+            number: user.number,
             email: user.email,
             token
         };
@@ -53,6 +54,7 @@ export class AuthService {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
+            number: user.number,
             email: user.email,
             token
         };
@@ -68,6 +70,7 @@ export class AuthService {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
+            number: user.number,
             email: user.email
         };
     }
