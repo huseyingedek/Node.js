@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 export interface IUser {
     firstName: string;
     lastName: string;
+    number: string;
     email: string;
     password: string;
     createdAt?: Date;

@@ -21,6 +21,13 @@ const userSchema = new Schema<IUserDocument>({
         lowercase: true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email']
     },
+    number: {
+        type: String,
+        required: [true, 'Phone number is required'],
+        unique: true,
+        trim: true,
+        match: [/^\d{11}$/, 'Please enter a valid phone number']
+    },
     password: {
         type: String,
         required: [true, 'Password is required'],
