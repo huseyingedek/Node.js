@@ -19,6 +19,9 @@ export const authDocs = {
                                     lastName: {
                                         type: 'string'
                                     },
+                                    number: {
+                                        type: 'string'
+                                    },
                                     email: {
                                         type: 'string'
                                     },
