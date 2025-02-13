@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import { specs } from './config/swagger';
 import { Database } from './config/database';
 import authRoutes from './routes/authRoutes';
+import binanceRoutes from './routes/binanceRoutes';
 import { ErrorMiddleware } from './middleware/errorMiddleware';
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/binance', binanceRoutes);
 
 app.use(ErrorMiddleware.handle);
 

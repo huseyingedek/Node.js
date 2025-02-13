@@ -23,7 +23,7 @@ export class ValidationMiddleware {
             .withMessage('Phone number is required')
             .isLength({ min: 11 })
             .withMessage('Phone number must be at least 11 characters'),
-            
+
         body('email')
             .trim()
             .notEmpty()
@@ -57,6 +57,44 @@ export class ValidationMiddleware {
             .withMessage('Password is required')
     ];
 
+    public static validateApiKeys: ValidationChain[] = [
+        body('apiKey')
+            .trim()
+            .notEmpty()
+            .withMessage('API key is required')
+            .isLength({ min: 64, max: 64 })
+            .withMessage('API key must be exactly 64 characters')
+            .matches(/^[A-Za-z0-9]+$/)
+            .withMessage('API key must contain only letters and numbers'),
+
+        body('apiSecret')
+            .trim()
+            .notEmpty()
+            .withMessage('API secret is required')
+            .isLength({ min: 64, max: 64 })
+            .withMessage('API secret must be exactly 64 characters')
+            .matches(/^[A-Za-z0-9]+$/)
+            .withMessage('API secret must contain only letters and numbers')
+    ];
+
+    public static validateUpdateApiKeys: ValidationChain[] = [
+        body('apiKey')
+            .optional()
+            .trim()
+            .isLength({ min: 16, max: 64 })
+            .withMessage('API key must be between 16 and 64 characters')
+            .matches(/^[A-Za-z0-9]+$/)
+            .withMessage('API key must contain only letters and numbers'),
+
+        body('apiSecret')
+            .optional()
+            .trim()
+            .isLength({ min: 16, max: 64 })
+            .withMessage('API secret must be between 16 and 64 characters')
+            .matches(/^[A-Za-z0-9]+$/)
+            .withMessage('API secret must contain only letters and numbers')
+    ];
+
     public static validate = (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -70,4 +108,6 @@ export class ValidationMiddleware {
         }
         next();
     };
+
+
 }
