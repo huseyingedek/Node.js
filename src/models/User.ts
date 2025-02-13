@@ -32,6 +32,16 @@ const userSchema = new Schema<IUserDocument>({
         type: String,
         required: [true, 'Password is required'],
         minlength: [6, 'Password must be at least 6 characters']
+    },
+    binanceApiKey: {
+        type: String,
+        trim: true,
+        select: false
+    },
+    binanceApiSecret: {
+        type: String,
+        trim: true,
+        select: false
     }
 }, {
     timestamps: true,

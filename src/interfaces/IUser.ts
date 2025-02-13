@@ -6,6 +6,8 @@ export interface IUser {
     number: string;
     email: string;
     password: string;
+    binanceApiKey?: string;
+    binanceApiSecret?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
