@@ -58,4 +58,21 @@ export class BinanceController {
             next(error);
         }
     }
+
+    public static async getPortfolio(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            if (!req.user) {
+                throw new Error('User not found in request');
+            }
+
+            const portfolio = await BinanceService.getPortfolio(req.user.id);
+
+            res.status(200).json({
+                success: true,
+                data: portfolio
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }

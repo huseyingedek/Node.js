@@ -1,3 +1,4 @@
+import Binance from 'node-binance-api';
 import { User } from '../models/User';
 import { IBinanceKeys } from '../interfaces/IUser';
 import { AppError } from '../utils/errorHandler';
@@ -63,5 +64,35 @@ export class BinanceService {
     private static validateApiKeyFormat(key: string): boolean {
         // gercek binance api formatı olcak
         return key.length === 64 && /^[A-Za-z0-9]+$/.test(key);
+    }
+
+    public static async getPortfolio(userId: string): Promise<any> {
+
+        const user = await User.findById(userId).select('+binanceApiKey +binanceApiSecret');
+        if (!user) {
+            throw new AppError(404, 'User not found');
+        }
+
+        const binance = new Binance().options({
+            APIKEY: user.binanceApiKey,
+            APISECRET: user.binanceApiSecret
+        });
+
+        try {
+            const balances = await binance.balance();
+            
+            const portfolio = Object.entries(balances)
+                .filter(([_, balance]: [string, any]) => parseFloat(balance.available) > 0 || parseFloat(balance.onOrder) > 0)
+                .map(([asset, balance]: [string, any]) => ({
+                    asset,
+                    available: balance.available,
+                    onOrder: balance.onOrder,
+                    total: parseFloat(balance.available) + parseFloat(balance.onOrder)
+                }));
+
+            return portfolio;
+        } catch (error) {
+            throw new AppError(500, 'Error fetching portfolio from Binance');
+        }
     }
 }

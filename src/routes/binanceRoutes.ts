@@ -24,4 +24,10 @@ router.delete(
     BinanceController.deleteApiKeys
 );
 
+router.get(
+    '/portfolio',
+    AuthMiddleware.authenticate,
+    BinanceController.getPortfolio
+);
+
 export default router;
