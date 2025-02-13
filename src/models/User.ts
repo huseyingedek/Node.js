@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { IUserDocument } from '../interfaces/IUser';
+import { encrypt, decrypt } from '../utils/encryption';
 
 const userSchema = new Schema<IUserDocument>({
     firstName: {
@@ -36,12 +37,16 @@ const userSchema = new Schema<IUserDocument>({
     binanceApiKey: {
         type: String,
         trim: true,
-        select: false
+        select: false,
+        set: (value: string) => encrypt(value),
+        get: (value: string) => value ? decrypt(value) : null
     },
     binanceApiSecret: {
         type: String,
         trim: true,
-        select: false
+        select: false,
+        set: (value: string) => encrypt(value),
+        get: (value: string) => value ? decrypt(value) : null
     }
 }, {
     timestamps: true,
@@ -50,11 +55,14 @@ const userSchema = new Schema<IUserDocument>({
             ret.id = ret._id;
             delete ret._id;
             delete ret.password;
+            delete ret.binanceApiKey;
+            delete ret.binanceApiSecret;
             delete ret.__v;
         }
     }
 });
 
+// Password hashleme
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
 
@@ -67,8 +75,28 @@ userSchema.pre('save', async function(next) {
     }
 });
 
+userSchema.post('save', function(doc) {
+    if (doc.isModified('binanceApiKey') || doc.isModified('binanceApiSecret')) {
+        console.log(`API keys modified for user ${doc._id} at ${new Date().toISOString()}`);
+    }
+});
+
 userSchema.methods.comparePassword = async function(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
+};
+
+userSchema.methods.getDecryptedApiKeys = async function(): Promise<{apiKey: string, apiSecret: string}> {
+    const user = await User.findById(this._id)
+        .select('+binanceApiKey +binanceApiSecret');
+    
+    if (!user?.binanceApiKey || !user?.binanceApiSecret) {
+        throw new Error('API keys not found');
+    }
+
+    return {
+        apiKey: decrypt(user.binanceApiKey),
+        apiSecret: decrypt(user.binanceApiSecret)
+    };
 };
 
 export const User = model<IUserDocument>('User', userSchema);

@@ -14,6 +14,7 @@ export interface IUser {
 
 export interface IUserDocument extends IUser, Document {
     comparePassword(password: string): Promise<boolean>;
+    getDecryptedApiKeys(): Promise<{apiKey: string, apiSecret: string}>;
 }
 
 export interface IUserLogin {
@@ -28,4 +29,9 @@ export interface IUserResponse {
     number: string;
     email: string;
     token?: string;
+}
+
+export interface IBinanceKeys {
+    apiKey: string;
+    apiSecret: string;
 }
