@@ -31,6 +31,12 @@ export interface IUserResponse {
     token?: string;
 }
 
+export interface IAuthenticatedRequest extends Request {
+    on(arg0: string, arg1: () => void): unknown;
+    params: { symbol: any; };
+    user: IUserDocument;
+}
+
 export interface IBinanceKeys {
     apiKey: string;
     apiSecret: string;

@@ -21,4 +21,18 @@ router.get(
     CryptoController.getAnalysis
 );
 
+router.get(
+    '/price-updates/:symbol',
+    AuthMiddleware.authenticate,
+    ValidationMiddleware.validateSymbol,
+    ValidationMiddleware.validate,
+    CryptoController.subscribeToPriceUpdates
+);
+
+router.get(
+    '/price-updates',
+    AuthMiddleware.authenticate,
+    CryptoController.subscribeToPriceUpdates
+);
+
 export default router;
