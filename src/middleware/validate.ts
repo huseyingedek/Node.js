@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { body, validationResult, ValidationChain } from 'express-validator';
+import { body, param, validationResult, ValidationChain } from 'express-validator';
 
 export class ValidationMiddleware {
     public static validateRegister: ValidationChain[] = [
@@ -95,16 +95,35 @@ export class ValidationMiddleware {
             .withMessage('API secret must contain only letters and numbers')
     ];
 
-    public static validate = (req: Request, res: Response, next: NextFunction) => {
+    public static validateSymbol: ValidationChain[] = [
+        param('symbol')
+            .trim()
+            .notEmpty()
+            .withMessage('Symbol is required')
+            .isString()
+            .withMessage('Symbol must be a string')
+            .matches(/^[A-Z0-9]{4,12}$/)
+            .withMessage('Invalid trading pair format (e.g., BTCUSDT, ETHUSDT)')
+    ];
+
+    public static validateTimeframe: ValidationChain[] = [
+        body('interval')
+            .optional()
+            .isIn(['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'])
+            .withMessage('Invalid timeframe interval')
+    ];
+
+    public static validate = (req: Request, res: Response, next: NextFunction): void => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
                 errors: errors.array().map(err => ({
                     field: err.type === 'field' ? err.path : '',
                     message: err.msg
                 }))
             });
+            return;
         }
         next();
     };

@@ -6,6 +6,7 @@ import { specs } from './config/swagger';
 import { Database } from './config/database';
 import authRoutes from './routes/authRoutes';
 import binanceRoutes from './routes/binanceRoutes';
+import cryptoRoutes from './routes/cryptoRoutes';
 import { ErrorMiddleware } from './middleware/errorMiddleware';
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/binance', binanceRoutes);
+app.use('/api/crypto', cryptoRoutes);
 
 app.use(ErrorMiddleware.handle);
 
