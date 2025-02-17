@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { IUserDocument } from '../interfaces/IUser';
 import { encrypt, decrypt } from '../utils/encryption';
@@ -33,6 +33,11 @@ const userSchema = new Schema<IUserDocument>({
         type: String,
         required: [true, 'Password is required'],
         minlength: [6, 'Password must be at least 6 characters']
+    },
+    currentSubscription: {
+        type: Types.ObjectId,
+        ref: 'Subscription',
+        default: null
     },
     binanceApiKey: {
         type: String,
