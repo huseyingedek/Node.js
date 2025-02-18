@@ -8,6 +8,7 @@ import authRoutes from './routes/authRoutes';
 import binanceRoutes from './routes/binanceRoutes';
 import cryptoRoutes from './routes/cryptoRoutes';
 import UserRoutes from './routes/userRoutes';
+import PremiumRotes from './routes/premiumRoutes';
 import SubscriptionRoutes  from './routes/subscriptionRoutes';
 import { ErrorMiddleware } from './middleware/errorMiddleware';
 
@@ -26,6 +27,8 @@ app.use('/api/binance', binanceRoutes);
 app.use('/api/crypto', cryptoRoutes);
 app.use('/api/subscription', SubscriptionRoutes);
 app.use('/api/users', UserRoutes);
+app.use('/api/premium', PremiumRotes);
+
 
 
 app.use(ErrorMiddleware.handle);
