@@ -60,18 +60,5 @@ export class AuthService {
         };
     }
 
-    public static async getProfile(userId: string): Promise<IUserResponse> {
-        const user = await User.findById(userId);
-        if (!user) {
-            throw new AppError(404, 'User not found');
-        }
-
-        return {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            number: user.number,
-            email: user.email
-        };
-    }
+    
 }

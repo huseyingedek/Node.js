@@ -42,20 +42,5 @@ export class AuthController {
         }
     }
 
-    public static async getProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            if (!req.user) {
-                throw new Error('User not found in request');
-            }
-
-            const user = await AuthService.getProfile(req.user.id);
-
-            res.status(200).json({
-                success: true,
-                data: user
-            });
-        } catch (error) {
-            next(error);
-        }
-    }
+    
 }

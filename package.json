@@ -13,6 +13,7 @@
   "type": "commonjs",
   "description": "",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.13.1",
     "@types/ws": "^8.5.14",
     "ts-node": "^10.9.2",
@@ -27,6 +28,7 @@
     "@types/mongoose": "^5.11.96",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.7",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "binance-api-node": "^0.12.9",
     "cors": "^2.8.5",

@@ -17,10 +17,4 @@ router.post(
     AuthController.login
 );
 
-router.get(
-    '/profile',
-    AuthMiddleware.authenticate,
-    AuthController.getProfile
-);
-
 export default router;
